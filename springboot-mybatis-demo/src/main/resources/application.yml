@@ -1,0 +1,41 @@
+
+server:
+  port: 8081
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+spring:
+  application:
+    name: mybatis-demo
+  profiles:
+    active: dev
+  #  autoconfigure:
+  #    exclude: [org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,
+  #              org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration,
+  #              org.springframework.boot.autoconfigure.sql.init.SqlInitializationAutoConfiguration]
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/t1?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root@123
+
+mybatis:
+  type-aliases-package: com.cfex.mybatis.entity
+  mapper-locations: classpath:mapper/*Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+page helper:
+  helper-dialect: mysql
+  reasonable: true      # Pagination rationalization
+  support-methods-arguments: true #Whether interface parameters are supported to pass paging parameters. The default is false
+  page-size-zero: true # When set to true, if pagesize is set to 0 (or limit of RowBounds=0), paging will not be performed and all results will be returned
+  params: count=countSql
+
+datasource:
+  router:
+    team: ${team_name}
+    app: ${app_name}

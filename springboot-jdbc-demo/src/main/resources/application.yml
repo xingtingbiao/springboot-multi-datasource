@@ -1,0 +1,61 @@
+server:
+  port: 8083
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+# spring jdbc datasource config
+spring:
+  application:
+    name: jdbc-demo
+  profiles:
+    active: dev
+#  autoconfigure:
+#    exclude: [org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,
+#              org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration,
+#              org.springframework.boot.autoconfigure.sql.init.SqlInitializationAutoConfiguration]
+#  h2:
+#    console:
+#      enabled: true
+#  sql:
+#    init:
+#      schema-locations: classpath*:h2/*schema.sql
+#      data-locations: classpath*:h2/*data.sql
+#  datasource:
+#    driver-class-name: org.h2.Driver
+#    url: jdbc:h2:mem:test;MODE=MYSQL
+#    username: sa
+#    password:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/t1?useUnicode=true&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root@123
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 10
+#  datasource:
+#    url: ${secret-id}
+#    driver-class-name: com.amazonaws.secretsmanager.sql.AWSSecretsManagerMySQLDriver
+#    username: ${secret-id}
+  thymeleaf:
+    cache: false
+
+#feign:
+#  client:
+#    config:
+#      default:
+#        readTimeout: 5000
+
+datasource:
+  router:
+#    enable: false
+#    url-format: jdbc:%s://%s:%s/%s
+#    driver: com.mysql.cj.jdbc.Driver
+    team: ${team_name}
+    app: ${app_name}
+
+logging:
+  level:
+    root: info

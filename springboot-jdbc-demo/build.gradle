@@ -1,0 +1,48 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.5'
+	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+	id 'java'
+}
+
+group = 'com.cfex'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'mysql:mysql-connector-java'
+	runtimeOnly 'com.h2database:h2'
+	annotationProcessor 'org.projectlombok:lombok'
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'junit:junit:4.13.2'
+	testImplementation 'junit:junit:4.13.2'
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
+//	implementation 'org.springframework.boot:spring-boot-devtools:2.7.5'
+	implementation project(':springboot-multi-datasource')
+//	implementation 'com.cfex:springboot-multi-datasource:1.0-SNAPSHOT'
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.5'
+	implementation 'com.alibaba:fastjson:2.0.20'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:2.7.5'
+	implementation 'com.itextpdf:html2pdf:4.0.3'
+	implementation 'com.amazonaws.secretsmanager:aws-secretsmanager-jdbc:1.0.10'
+	implementation 'com.amazonaws:aws-java-sdk-sso:1.12.370'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

@@ -1,0 +1,181 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.5'
+	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+	id 'java'
+}
+
+group = 'com.cfex'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+///**
+// * When building with playground CodeArtifact, run the following command:
+// *      ./gradlew -Penv=playground clean build
+// *
+// * When building with infra CodeArtifact, run the following command:
+// *      ./gradlew clean build
+// * or
+// *      ./gradlew -Penv=infra clean build
+// *
+// * This script can detect automatically if it is run by CircleCI runner or locally.
+// *
+// * When it is run locally, make sure you have local AWS profiles.
+// * CircleCI runner does not have AWS profiles.
+// *
+// * */
+//def Env_Playground = 'playground'
+//def Env_Infra = 'infra'
+//
+///**
+// * while the build is run by CircleCI, environmental variable "CIRCLECI" is available as a Boolean value "true"
+// * refer to https://circleci.com/docs/variables/
+// * */
+//def isRunByCircleCi = {
+//	return "$System.env.CIRCLECI" == "true"
+//}
+//
+//
+//ext.envArg = Env_Infra
+//
+//ext.repoUrl = 'unset'
+//ext.ssoToken = 'unset'
+//ext.domain = 'unset'
+//ext.ssoAccount = 'unset'
+//
+//
+//def getSsoAccount = { ->
+//	println "Start checking SSO Login status ..."
+//
+//	def hashStdOut = new ByteArrayOutputStream()
+//
+//	// circleci runner does not have profile
+//	if (isRunByCircleCi()) {
+//		exec {
+//			commandLine 'aws', 'sts', 'get-caller-identity', '--query', 'Account'
+//			standardOutput = hashStdOut
+//		}
+//	} else {
+//		exec {
+//			commandLine 'aws', 'sts', 'get-caller-identity', '--query', 'Account', '--profile', envArg
+//			standardOutput = hashStdOut
+//		}
+//	}
+//
+//	// output is like "538420205323", we need to remove the double quotes
+//	ext.output = hashStdOut.toString().trim()
+//	return output.substring(1, output.length() - 1)
+//}
+//
+//
+//
+//def getSSOToken = { ->
+//	ssoAccount = getSsoAccount()
+//	println "Succeeded getting SSO Account $ssoAccount"
+//
+//	println "Start getting SSO Token"
+//	def hashStdOut = new ByteArrayOutputStream()
+//
+//	// circleci runner does not have profile
+//	if (isRunByCircleCi()) {
+//		exec {
+//			commandLine "aws", "codeartifact", "get-authorization-token",
+//					"--domain", domain,
+//					"--domain-owner", ssoAccount,
+//					"--query", "authorizationToken",
+//					"--output", "text",
+//					"--region", "us-west-2"
+//			standardOutput = hashStdOut
+//		}
+//	} else {
+//		exec {
+//			commandLine "aws", "codeartifact", "get-authorization-token",
+//					"--domain", domain,
+//					"--domain-owner", ssoAccount,
+//					"--query", "authorizationToken",
+//					"--output", "text",
+//					"--region", "us-west-2",
+//					'--profile', envArg
+//			standardOutput = hashStdOut
+//		}
+//	}
+//
+//
+//	ext.token = hashStdOut.toString().trim()
+//	println "Succeeded getting SSO Token (hidden for security reason)"
+//
+//	return token
+//}
+//
+//
+//// Fixme: this task's configuration would be evaluated once for each module
+////  we need to make it configured only once
+//task setEnv {
+//	// infra is the default env
+//	if (project.hasProperty("env")) {
+//		envArg = env
+//		if (envArg != Env_Infra && envArg != Env_Playground) {
+//			throw new Exception("Invalid env '$envArg': it must be either '$Env_Infra' or '$Env_Playground'");
+//		}
+//	}
+//
+//	if (isRunByCircleCi()) {
+//		println "We are running in CircleCI runner"
+//	} else {
+//
+//		println "We are running locally"
+//	}
+//
+//	println "Will set build environment as '$envArg'"
+//
+//	if (envArg == Env_Infra) {
+//		domain = 'cfex-infra'
+//		repoUrl = 'https://cfex-infra-538420205323.d.codeartifact.us-west-2.amazonaws.com/maven/maven-cfex/'
+//	} else {
+//		domain = 'cfex-playground'
+//		repoUrl = 'https://cfex-playground-060723230445.d.codeartifact.us-west-2.amazonaws.com/maven/maven-cfex/'
+//	}
+//
+//	ssoToken = getSSOToken()
+//
+//	println "repoUrl is set to '$repoUrl'"
+//	println "domain is set to '$domain'"
+//}
+
+repositories {
+	mavenCentral()
+//	maven {
+//		url repoUrl
+//		credentials {
+//			username "aws"
+//			password ssoToken
+//		}
+//	}
+}
+
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	runtimeOnly 'mysql:mysql-connector-java:8.0.30'
+	runtimeOnly 'com.h2database:h2'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'junit:junit:4.13.2'
+	testImplementation 'junit:junit:4.13.2'
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
+//	implementation 'org.springframework.boot:spring-boot-devtools:2.7.5'
+	implementation project(':springboot-multi-datasource')
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

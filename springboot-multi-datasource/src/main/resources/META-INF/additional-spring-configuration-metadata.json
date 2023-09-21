@@ -1,0 +1,37 @@
+{
+  "properties": [
+    {
+      "name": "datasource.router.enable",
+      "type": "java.lang.Boolean",
+      "description": "Description for datasource.router.enable.",
+      "sourceType": "com.cfexlib.datasource.route.RouterProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "datasource.router.url-format",
+      "type": "java.lang.String",
+      "description": "Description for datasource.router.url-format.",
+      "sourceType": "com.cfexlib.datasource.route.RouterProperties",
+      "defaultValue": "jdbc:%s://%s:%s/%s?useUnicode=true&characterEncoding=UTF-8"
+    },
+    {
+      "name": "datasource.router.driver",
+      "type": "java.lang.String",
+      "description": "Description for datasource.router.driver.",
+      "sourceType": "com.cfexlib.datasource.route.RouterProperties",
+      "defaultValue": "com.mysql.cj.jdbc.Driver"
+    },
+    {
+      "name": "datasource.router.team",
+      "type": "java.lang.String",
+      "description": "Description for datasource.router.team.",
+      "sourceType": "com.cfexlib.datasource.route.RouterProperties"
+    },
+    {
+      "name": "datasource.router.app",
+      "type": "java.lang.String",
+      "description": "Description for datasource.router.app.",
+      "sourceType": "com.cfexlib.datasource.route.RouterProperties"
+    }
+  ]
+}

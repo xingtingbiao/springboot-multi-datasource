@@ -1,0 +1,38 @@
+
+server:
+  port: 8082
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+spring:
+  application:
+    name: jpa-demo
+  profiles:
+    active: dev
+#    autoconfigure:
+#      exclude: [org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,
+#                org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration,
+#                org.springframework.boot.autoconfigure.sql.init.SqlInitializationAutoConfiguration]
+#  datasource:
+#    url: jdbc:mysql://127.0.0.1:3306/t1?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    username: root
+#    password: root@123
+  jpa:
+    show-sql: true
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+#    hibernate:
+#      naming:
+#        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+#    properties:
+#      hibernate:
+#        format_sql: true
+
+
+datasource:
+  router:
+    team: ${team_name}
+    app: ${app_name}
